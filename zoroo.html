@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Zoroo.mn — Монгол мэргэжилтэнд итгэ</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --night:#0A0F2C;
+  --night2:#111729;
+  --night3:#1a2040;
+  --sky:#4FC3F7;
+  --sky2:#81D4FA;
+  --sky3:#0288D1;
+  --cream:#F0F7FF;
+  --white:#ffffff;
+  --border:rgba(79,195,247,0.15);
+  --border2:rgba(79,195,247,0.3);
+  --muted:rgba(240,247,255,0.45);
+  --text:#F0F7FF;
+  --r:14px;
+  --r2:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--night);color:var(--text);min-height:100vh}
+
+/* Stars bg */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 20% 20%, rgba(79,195,247,0.06) 0%, transparent 60%),
+             radial-gradient(ellipse at 80% 80%, rgba(79,195,247,0.04) 0%, transparent 50%);
+  pointer-events:none;z-index:0;
+}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(10,15,44,0.85);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 5%;display:flex;align-items:center;gap:20px;height:62px;
+}
+.nav-logo{
+  font-size:20px;font-weight:600;cursor:pointer;
+  color:var(--white);letter-spacing:-0.3px;margin-right:auto;
+  display:flex;align-items:center;gap:10px;
+}
+.nav-logo .z-mark{
+  width:34px;height:34px;background:var(--sky);border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+}
+.nav-logo .z-mark svg{width:18px;height:18px;}
+.nav-logo span{color:var(--sky);}
+.nav-link{font-size:14px;color:var(--muted);cursor:pointer;padding:6px 10px;border-radius:8px;transition:.15s;font-weight:500;}
+.nav-link:hover{color:var(--text);background:rgba(79,195,247,0.08);}
+.nav-btn{
+  background:var(--sky);color:var(--night);border:none;
+  padding:8px 18px;border-radius:20px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:.15s;
+}
+.nav-btn:hover{background:var(--sky2);}
+.nav-btn.out{background:transparent;color:var(--sky);border:1.5px solid var(--border2);}
+.nav-btn.out:hover{background:rgba(79,195,247,0.1);}
+
+/* PAGES */
+.page{display:none;min-height:calc(100vh - 62px);position:relative;z-index:1;}
+.page.active{display:block;}
+
+/* ── HOME ── */
+.hero{
+  padding:90px 5% 80px;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+  position:relative;overflow:hidden;
+}
+.hero::after{
+  content:'';position:absolute;right:-80px;top:50%;transform:translateY(-50%);
+  width:500px;height:500px;
+  background:radial-gradient(circle, rgba(79,195,247,0.08) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(79,195,247,0.1);border:1px solid var(--border2);
+  border-radius:20px;padding:5px 14px;
+  font-size:12px;font-weight:500;color:var(--sky);margin-bottom:22px;
+}
+.hero-eyebrow span{width:6px;height:6px;background:var(--sky);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{
+  font-size:clamp(36px,4vw,54px);font-weight:600;line-height:1.1;
+  letter-spacing:-1.5px;margin-bottom:10px;color:var(--white);
+}
+.hero h1 em{color:var(--sky);font-style:normal;}
+.hero-slogan{
+  font-size:15px;color:var(--sky);font-weight:500;
+  margin-bottom:16px;letter-spacing:0.01em;
+}
+.hero p{font-size:16px;color:var(--muted);line-height:1.75;margin-bottom:32px;max-width:460px;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-p{
+  background:var(--sky);color:var(--night);border:none;
+  padding:13px 28px;border-radius:24px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:15px;
+  cursor:pointer;transition:.2s;
+}
+.btn-p:hover{background:var(--sky2);transform:translateY(-1px);}
+.btn-s{
+  background:rgba(79,195,247,0.08);color:var(--sky);
+  border:1.5px solid var(--border2);
+  padding:12px 24px;border-radius:24px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;font-size:15px;
+  cursor:pointer;transition:.2s;
+}
+.btn-s:hover{background:rgba(79,195,247,0.15);}
+
+/* Hero floating cards */
+.hero-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.h-card{
+  background:var(--night2);border:1px solid var(--border);
+  border-radius:var(--r);padding:18px;
+  transition:.25s;position:relative;overflow:hidden;
+}
+.h-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(79,195,247,0.05) 0%,transparent 60%);
+  pointer-events:none;
+}
+.h-card:hover{border-color:var(--border2);transform:translateY(-4px);}
+.h-card-icon{font-size:28px;margin-bottom:10px;}
+.h-card h3{font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px;}
+.h-card p{font-size:11px;color:var(--muted);}
+.h-card-price{font-size:13px;font-weight:600;color:var(--sky);margin-top:10px;}
+
+/* Stats */
+.stats{
+  background:var(--night2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:28px 5%;display:flex;
+}
+.stat{flex:1;text-align:center;border-right:1px solid var(--border);}
+.stat:last-child{border:none;}
+.stat-num{font-size:30px;font-weight:600;color:var(--sky);letter-spacing:-1px;}
+.stat-label{font-size:12px;color:var(--muted);margin-top:3px;}
+
+/* Sections */
+.section{padding:60px 5%;}
+.section.alt{background:var(--night2);}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;}
+.sec-head h2{font-size:26px;font-weight:600;color:var(--white);letter-spacing:-0.5px;}
+.see-all{font-size:14px;color:var(--sky);cursor:pointer;font-weight:500;}
+
+/* Categories */
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;}
+.cat{
+  background:var(--night2);border:1px solid var(--border);
+  border-radius:var(--r);padding:18px 14px;text-align:center;
+  cursor:pointer;transition:.2s;
+}
+.cat:hover{border-color:var(--sky);background:rgba(79,195,247,0.06);}
+.cat .ic{font-size:28px;margin-bottom:8px;}
+.cat h3{font-size:13px;font-weight:500;color:var(--white);}
+.cat p{font-size:11px;color:var(--muted);margin-top:2px;}
+
+/* Service cards */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;}
+.svc{
+  background:var(--night2);border:1px solid var(--border);
+  border-radius:var(--r);overflow:hidden;cursor:pointer;
+  transition:.25s;
+}
+.svc:hover{border-color:var(--border2);transform:translateY(-4px);}
+.svc-thumb{
+  height:130px;display:flex;align-items:center;justify-content:center;
+  font-size:44px;
+  background:linear-gradient(135deg,rgba(79,195,247,0.08),rgba(10,15,44,0.5));
+  border-bottom:1px solid var(--border);
+}
+.svc-body{padding:14px;}
+.prov-row{display:flex;align-items:center;gap:8px;margin-bottom:9px;}
+.av-sm{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--night);flex-shrink:0;}
+.prov-name{font-size:12px;font-weight:600;color:var(--white);}
+.prov-cat{font-size:11px;color:var(--muted);}
+.svc-title{font-size:14px;font-weight:500;color:var(--white);line-height:1.4;margin-bottom:9px;}
+.svc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;}
+.tag{
+  background:rgba(79,195,247,0.08);border:1px solid var(--border);
+  border-radius:10px;padding:2px 8px;font-size:11px;color:var(--sky);
+}
+.svc-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:10px;border-top:1px solid var(--border);
+}
+.price{font-size:14px;font-weight:600;color:var(--sky);}
+.deliv{font-size:11px;color:var(--muted);}
+
+/* ── BROWSE ── */
+.browse-top{
+  background:var(--night2);padding:40px 5% 32px;
+  border-bottom:1px solid var(--border);
+}
+.browse-top h1{font-size:28px;font-weight:600;color:var(--white);margin-bottom:16px;letter-spacing:-0.5px;}
+.search-wrap{display:flex;gap:10px;max-width:560px;}
+.search-wrap input{
+  flex:1;background:var(--night3);border:1.5px solid var(--border);
+  border-radius:10px;padding:11px 16px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;
+  color:var(--text);outline:none;transition:.15s;
+}
+.search-wrap input::placeholder{color:var(--muted);}
+.search-wrap input:focus{border-color:var(--sky);}
+.search-wrap button{
+  background:var(--sky);color:var(--night);border:none;
+  padding:11px 22px;border-radius:10px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;cursor:pointer;
+}
+.browse-body{padding:32px 5%;display:grid;grid-template-columns:200px 1fr;gap:32px;}
+.filter-panel h3{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px;}
+.fg{margin-bottom:22px;}
+.fg h4{font-size:13px;font-weight:500;color:var(--white);margin-bottom:10px;}
+.chip{
+  display:inline-block;border:1px solid var(--border);border-radius:20px;
+  padding:5px 11px;font-size:12px;cursor:pointer;margin:3px 3px 3px 0;
+  transition:.15s;font-family:'Plus Jakarta Sans',sans-serif;color:var(--muted);
+}
+.chip:hover,.chip.on{background:var(--sky);color:var(--night);border-color:var(--sky);}
+.res-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.res-head p{font-size:13px;color:var(--muted);}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+
+/* ── DETAIL ── */
+.det-hero{background:var(--night2);padding:40px 5%;border-bottom:1px solid var(--border);}
+.det-top{display:flex;gap:20px;align-items:flex-start;}
+.av-lg{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:var(--night);flex-shrink:0;}
+.det-info h1{font-size:24px;font-weight:600;color:var(--white);margin-bottom:8px;letter-spacing:-0.3px;}
+.det-meta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;}
+.mi{font-size:13px;color:var(--muted);}
+.det-bio{font-size:14px;line-height:1.7;color:var(--muted);max-width:560px;}
+.det-body{padding:40px 5%;display:grid;grid-template-columns:1fr 300px;gap:40px;}
+.det-body h2{font-size:20px;font-weight:600;color:var(--white);margin-bottom:14px;}
+.det-body p{font-size:14px;line-height:1.8;color:var(--muted);margin-bottom:16px;}
+.d-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;}
+.d-tag{background:rgba(79,195,247,0.08);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:13px;color:var(--sky);}
+.contact-card{
+  background:var(--night2);border:1px solid var(--border);
+  border-radius:var(--r2);padding:24px;position:sticky;top:80px;
+}
+.contact-card h3{font-size:17px;font-weight:600;color:var(--white);margin-bottom:6px;}
+.c-price{font-size:28px;font-weight:600;color:var(--sky);margin-bottom:18px;}
+.c-info{display:flex;flex-direction:column;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
+.c-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);}
+
+/* ── AUTH ── */
+.auth-page{display:flex;align-items:center;justify-content:center;padding:60px 5%;min-height:calc(100vh - 62px);}
+.auth-box{
+  background:var(--night2);border:1px solid var(--border);
+  border-radius:var(--r2);padding:40px;width:100%;max-width:480px;
+}
+.auth-box h2{font-size:24px;font-weight:600;color:var(--white);margin-bottom:6px;letter-spacing:-0.3px;}
+.auth-box p{font-size:14px;color:var(--muted);margin-bottom:24px;}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px;}
+.role-c{
+  border:1.5px solid var(--border);border-radius:var(--r);
+  padding:16px;text-align:center;cursor:pointer;transition:.15s;
+}
+.role-c:hover,.role-c.on{border-color:var(--sky);background:rgba(79,195,247,0.07);}
+.role-c .ic{font-size:26px;margin-bottom:6px;}
+.role-c h3{font-size:13px;font-weight:600;color:var(--white);}
+.role-c p{font-size:11px;color:var(--muted);margin-top:2px;}
+.fg-form{margin-bottom:16px;}
+.fg-form label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;letter-spacing:.02em;}
+.fg-form input,.fg-form textarea,.fg-form select{
+  width:100%;background:var(--night3);border:1.5px solid var(--border);
+  border-radius:10px;padding:11px 14px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;
+  color:var(--text);outline:none;transition:.15s;
+}
+.fg-form input::placeholder,.fg-form textarea::placeholder{color:rgba(240,247,255,0.25);}
+.fg-form input:focus,.fg-form textarea:focus,.fg-form select:focus{border-color:var(--sky);}
+.fg-form select option{background:var(--night2);color:var(--text);}
+.fg-form textarea{resize:vertical;min-height:80px;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.sub-btn{
+  width:100%;background:var(--sky);color:var(--night);border:none;
+  padding:13px;border-radius:20px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;
+  cursor:pointer;transition:.2s;margin-top:6px;
+}
+.sub-btn:hover{background:var(--sky2);}
+.auth-sw{text-align:center;margin-top:14px;font-size:13px;color:var(--muted);}
+.auth-sw span{color:var(--sky);cursor:pointer;font-weight:600;}
+
+/* ── POST ── */
+.post-page{padding:60px 5%;max-width:680px;margin:0 auto;}
+.post-page h2{font-size:26px;font-weight:600;color:var(--white);margin-bottom:6px;letter-spacing:-0.3px;}
+.post-page>p{font-size:14px;color:var(--muted);margin-bottom:32px;}
+
+/* ── DASHBOARD ── */
+.dash-top{background:var(--night2);padding:32px 5%;border-bottom:1px solid var(--border);}
+.dash-top h1{font-size:24px;font-weight:600;color:var(--white);margin-bottom:4px;}
+.dash-top p{font-size:14px;color:var(--muted);}
+.dash-body{padding:36px 5%;}
+.dash-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:36px;}
+.d-card{background:var(--night2);border:1px solid var(--border);border-radius:var(--r);padding:20px;}
+.d-card h3{font-size:26px;font-weight:600;color:var(--sky);margin-bottom:4px;}
+.d-card p{font-size:13px;color:var(--muted);}
+.dash-sec h2{font-size:20px;font-weight:600;color:var(--white);margin-bottom:16px;letter-spacing:-0.3px;}
+
+/* ── MODAL ── */
+.modal-ov{
+  display:none;position:fixed;inset:0;
+  background:rgba(10,15,44,0.8);backdrop-filter:blur(8px);
+  z-index:200;align-items:center;justify-content:center;padding:20px;
+}
+.modal-ov.open{display:flex;}
+.modal{
+  background:var(--night2);border:1px solid var(--border);
+  border-radius:var(--r2);padding:32px;width:100%;max-width:460px;
+  position:relative;animation:slideUp .25s ease;
+}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-x{
+  position:absolute;top:14px;right:14px;background:var(--night3);
+  border:1px solid var(--border);border-radius:50%;width:30px;height:30px;
+  cursor:pointer;font-size:14px;color:var(--muted);display:flex;align-items:center;justify-content:center;
+}
+.modal h2{font-size:20px;font-weight:600;color:var(--white);margin-bottom:4px;}
+.modal .sub{font-size:13px;color:var(--muted);margin-bottom:20px;}
+
+/* BADGE */
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.badge-g{background:rgba(79,195,247,0.1);color:var(--sky);}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:24px;left:50%;
+  transform:translateX(-50%) translateY(60px);
+  background:var(--night2);border:1px solid var(--border);color:var(--text);
+  padding:12px 24px;border-radius:24px;font-size:14px;font-weight:500;
+  z-index:300;transition:.3s;opacity:0;
+}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+/* EMPTY */
+.empty{text-align:center;padding:60px 20px;color:var(--muted);}
+.empty-ic{font-size:44px;margin-bottom:12px;}
+.empty h3{font-size:16px;font-weight:600;color:var(--white);margin-bottom:6px;}
+
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;padding:50px 5%}
+  .hero-visual{display:none}
+  .browse-body{grid-template-columns:1fr}
+  .filter-panel{display:none}
+  .det-body,.det-top{flex-direction:column}
+  .fr{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">
+    <div class="z-mark">
+      <svg viewBox="0 0 28 28" fill="none"><path d="M7 7 L21 7 L7 21 L21 21" stroke="#0A0F2C" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    zoroo<span>.mn</span>
+  </div>
+  <span class="nav-link" onclick="showPage('browse')">Үйлчилгээ</span>
+  <span class="nav-link" id="dashLink" style="display:none" onclick="showPage('dashboard')">Хяналт</span>
+  <div id="navGuest" style="display:flex;gap:8px;align-items:center">
+    <button class="nav-btn out" onclick="showPage('login')">Нэвтрэх</button>
+    <button class="nav-btn" onclick="showPage('register')">Бүртгүүлэх</button>
+  </div>
+  <div id="navUser" style="display:none;gap:8px;align-items:center">
+    <span id="navName" style="font-size:13px;font-weight:600;color:var(--muted)"></span>
+    <button class="nav-btn out" onclick="logout()">Гарах</button>
+  </div>
+</nav>
+
+<!-- ══ HOME ══ -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow"><span></span>Монголын #1 Freelance Платформ</div>
+      <h1>Монгол <em>чадварыг</em><br>нэг дороос</h1>
+      <div class="hero-slogan">Монгол мэргэжилтэнд итгэ — Zoroo.mn</div>
+      <p>Дизайн, код, орчуулга — найдвартай Монгол мэргэжилтнүүдтэй шуурхай холбогд. Upwork биш, Fiverr биш. Энэ бол Монголынх.</p>
+      <div class="hero-btns">
+        <button class="btn-p" onclick="showPage('register')">Мэргэжилтнээр бүртгүүлэх</button>
+        <button class="btn-s" onclick="showPage('browse')">Үйлчилгээ хайх →</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-cards">
+        <div class="h-card"><div class="h-card-icon">🎨</div><h3>Лого дизайн</h3><p>Бат-Эрдэнэ</p><div class="h-card-price">₮50,000-с</div></div>
+        <div class="h-card"><div class="h-card-icon">💻</div><h3>Вэб хөгжүүлэлт</h3><p>Мөнхзул</p><div class="h-card-price">₮200,000-с</div></div>
+        <div class="h-card"><div class="h-card-icon">🌐</div><h3>Орчуулга</h3><p>Оюунбилэг</p><div class="h-card-price">₮30,000-с</div></div>
+        <div class="h-card"><div class="h-card-icon">🎬</div><h3>Видео монтаж</h3><p>Энхтайван</p><div class="h-card-price">₮60,000-с</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-num" id="sP">0+</div><div class="stat-label">Мэргэжилтэн</div></div>
+    <div class="stat"><div class="stat-num" id="sS">0+</div><div class="stat-label">Үйлчилгээ</div></div>
+    <div class="stat"><div class="stat-num">200+</div><div class="stat-label">Амжилтай захиалга</div></div>
+    <div class="stat"><div class="stat-num">4.9★</div><div class="stat-label">Үнэлгээ</div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-head"><h2>Ангилалаар хайх</h2></div>
+    <div class="cats">
+      <div class="cat" onclick="filterCat('Дизайн')"><div class="ic">🎨</div><h3>Дизайн</h3><p>Лого, UI/UX</p></div>
+      <div class="cat" onclick="filterCat('Хөгжүүлэлт')"><div class="ic">💻</div><h3>Хөгжүүлэлт</h3><p>Вэб, апп</p></div>
+      <div class="cat" onclick="filterCat('Орчуулга')"><div class="ic">🌐</div><h3>Орчуулга</h3><p>MN, EN, CN</p></div>
+      <div class="cat" onclick="filterCat('Маркетинг')"><div class="ic">📢</div><h3>Маркетинг</h3><p>SMM, SEO</p></div>
+      <div class="cat" onclick="filterCat('Зохиол')"><div class="ic">✍️</div><h3>Зохиол</h3><p>Нийтлэл</p></div>
+      <div class="cat" onclick="filterCat('Видео')"><div class="ic">🎬</div><h3>Видео</h3><p>Монтаж</p></div>
+      <div class="cat" onclick="filterCat('Зөвлөх')"><div class="ic">💼</div><h3>Зөвлөх</h3><p>Бизнес</p></div>
+      <div class="cat" onclick="filterCat('Хөгжим')"><div class="ic">🎵</div><h3>Хөгжим</h3><p>Бичлэг</p></div>
+    </div>
+  </div>
+
+  <div class="section alt">
+    <div class="sec-head"><h2>Сүүлд нэмэгдсэн</h2><span class="see-all" onclick="showPage('browse')">Бүгдийг харах →</span></div>
+    <div class="svc-grid" id="homeSvcs"></div>
+  </div>
+</div>
+
+<!-- ══ BROWSE ══ -->
+<div id="page-browse" class="page">
+  <div class="browse-top">
+    <h1>Үйлчилгээ хайх</h1>
+    <div class="search-wrap">
+      <input type="text" id="srch" placeholder="Дизайн, код, орчуулга..." oninput="renderBrowse()"/>
+      <button onclick="renderBrowse()">Хайх</button>
+    </div>
+  </div>
+  <div class="browse-body">
+    <div class="filter-panel">
+      <h3>Шүүлтүүр</h3>
+      <div class="fg"><h4>Ангилал</h4><div id="catChips"></div></div>
+      <div class="fg">
+        <h4>Үнэ</h4>
+        <span class="chip on" onclick="setPf('all',this)">Бүх</span>
+        <span class="chip" onclick="setPf('50',this)">₮50к хүртэл</span>
+        <span class="chip" onclick="setPf('100',this)">₮50к–100к</span>
+        <span class="chip" onclick="setPf('100+',this)">₮100к дээш</span>
+      </div>
+    </div>
+    <div>
+      <div class="res-head"><p id="resCnt"></p></div>
+      <div class="res-grid" id="browseGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DETAIL ══ -->
+<div id="page-detail" class="page">
+  <div id="detContent"></div>
+</div>
+
+<!-- ══ REGISTER ══ -->
+<div id="page-register" class="page">
+  <div class="auth-page">
+    <div class="auth-box">
+      <h2>Бүртгүүлэх</h2>
+      <p>Zoroo.mn-д тавтай морилно уу</p>
+      <div class="role-grid">
+        <div class="role-c on" id="rProv" onclick="selRole('provider')"><div class="ic">🧑‍💻</div><h3>Мэргэжилтэн</h3><p>Үйлчилгээ зарах</p></div>
+        <div class="role-c" id="rClient" onclick="selRole('client')"><div class="ic">🛒</div><h3>Үйлчлүүлэгч</h3><p>Захиалах</p></div>
+      </div>
+      <div class="fr">
+        <div class="fg-form"><label>Нэр</label><input id="rN" placeholder="Батболд"/></div>
+        <div class="fg-form"><label>Овог</label><input id="rL" placeholder="Дорж"/></div>
+      </div>
+      <div class="fg-form"><label>Утас / Имэйл</label><input id="rE" placeholder="99001122"/></div>
+      <div class="fg-form"><label>Нууц үг</label><input type="password" id="rP" placeholder="••••••••"/></div>
+      <div id="provEx">
+        <div class="fg-form"><label>Мэргэжил</label>
+          <select id="rC"><option value="">Сонгох...</option><option>Дизайн</option><option>Хөгжүүлэлт</option><option>Орчуулга</option><option>Маркетинг</option><option>Зохиол</option><option>Видео</option><option>Зөвлөх</option><option>Хөгжим</option></select>
+        </div>
+        <div class="fg-form"><label>Өөрийн тухай</label><textarea id="rB" placeholder="Би 3 жилийн туршлагатай..."></textarea></div>
+      </div>
+      <button class="sub-btn" onclick="register()">Бүртгүүлэх</button>
+      <div class="auth-sw">Бүртгэлтэй юу? <span onclick="showPage('login')">Нэвтрэх</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LOGIN ══ -->
+<div id="page-login" class="page">
+  <div class="auth-page">
+    <div class="auth-box">
+      <h2>Нэвтрэх</h2>
+      <p>Тавтай морилно уу</p>
+      <div class="fg-form"><label>Утас / Имэйл</label><input id="lE" placeholder="99001122"/></div>
+      <div class="fg-form"><label>Нууц үг</label><input type="password" id="lP" placeholder="••••••••"/></div>
+      <button class="sub-btn" onclick="login()">Нэвтрэх</button>
+      <div class="auth-sw">Бүртгэлгүй юу? <span onclick="showPage('register')">Бүртгүүлэх</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ POST ══ -->
+<div id="page-post" class="page">
+  <div class="post-page">
+    <h2>Үйлчилгээ нэмэх</h2>
+    <p>Таны чадварыг олон хүнд хүргэнэ</p>
+    <div class="fg-form"><label>Үйлчилгээний нэр</label><input id="sT" placeholder="Вэб дизайн хийж өгнө"/></div>
+    <div class="fg-form"><label>Ангилал</label>
+      <select id="sCat"><option value="">Сонгох...</option><option>Дизайн</option><option>Хөгжүүлэлт</option><option>Орчуулга</option><option>Маркетинг</option><option>Зохиол</option><option>Видео</option><option>Зөвлөх</option><option>Хөгжим</option></select>
+    </div>
+    <div class="fg-form"><label>Тайлбар</label><textarea id="sD" rows="4" placeholder="Үйлчилгээний дэлгэрэнгүй..."></textarea></div>
+    <div class="fr">
+      <div class="fg-form"><label>Үнэ (₮)</label><input type="number" id="sPr" placeholder="50000"/></div>
+      <div class="fg-form"><label>Хугацаа</label>
+        <select id="sDl"><option>1 өдөр</option><option>3 өдөр</option><option>7 өдөр</option><option>14 өдөр</option><option>30 өдөр</option></select>
+      </div>
+    </div>
+    <div class="fg-form"><label>Холбоо барих</label><input id="sCo" placeholder="99001122"/></div>
+    <div class="fg-form"><label>Түлхүүр үг (таслалаар)</label><input id="sTg" placeholder="лого, дизайн"/></div>
+    <button class="sub-btn" onclick="postSvc()">Нийтлэх</button>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD ══ -->
+<div id="page-dashboard" class="page">
+  <div class="dash-top">
+    <h1 id="dWelcome">Сайн байна уу!</h1>
+    <p>Таны хяналтын самбар</p>
+  </div>
+  <div class="dash-body">
+    <div class="dash-cards">
+      <div class="d-card"><h3 id="dCnt">0</h3><p>Нийтэлсэн үйлчилгээ</p></div>
+      <div class="d-card"><h3 id="dInq">0</h3><p>Ирсэн хүсэлт</p></div>
+      <div class="d-card"><h3>—</h3><p>Нийт орлого</p></div>
+    </div>
+    <div class="dash-sec">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <h2>Миний үйлчилгээнүүд</h2>
+        <button class="nav-btn" onclick="showPage('post')">+ Нэмэх</button>
+      </div>
+      <div class="res-grid" id="mySvcs"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONTACT MODAL ══ -->
+<div class="modal-ov" id="cModal">
+  <div class="modal">
+    <div class="modal-x" onclick="closeModal()">✕</div>
+    <h2>Мессеж илгээх</h2>
+    <p class="sub" id="mProv"></p>
+    <div class="fg-form"><label>Таны нэр</label><input id="mN" placeholder="Батболд"/></div>
+    <div class="fg-form"><label>Холбоо барих</label><input id="mC" placeholder="99001122"/></div>
+    <div class="fg-form"><label>Захиалгын дэлгэрэнгүй</label><textarea id="mT" rows="3" placeholder="Надад лого хэрэгтэй..."></textarea></div>
+    <button class="sub-btn" onclick="sendInq()">Илгээх</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const DB={
+  get users(){try{return JSON.parse(localStorage.getItem('z_u')||'[]')}catch{return[]}},
+  set users(v){localStorage.setItem('z_u',JSON.stringify(v))},
+  get svcs(){try{return JSON.parse(localStorage.getItem('z_s')||'[]')}catch{return[]}},
+  set svcs(v){localStorage.setItem('z_s',JSON.stringify(v))},
+  get inqs(){try{return JSON.parse(localStorage.getItem('z_i')||'[]')}catch{return[]}},
+  set inqs(v){localStorage.setItem('z_i',JSON.stringify(v))},
+};
+
+let me=null;
+try{me=JSON.parse(sessionStorage.getItem('z_me'))}catch{}
+let selRole_='provider';
+let pf='all';
+let catF='';
+let curSvc=null;
+
+const skyColors=['#4FC3F7','#81D4FA','#29B6F6','#0288D1','#F0A500','#E8C547','#C8622A','#4DB6AC'];
+
+function seed(){
+  if(DB.users.length>0)return;
+  const users=[
+    {id:'u1',name:'Мөнхзул Д',email:'99001111',pass:'1234',role:'provider',cat:'Хөгжүүлэлт',bio:'React, Vue, Node.js-ийн туршлагатай хөгжүүлэгч.',av:'#4FC3F7'},
+    {id:'u2',name:'Бат-Эрдэнэ С',email:'99002222',pass:'1234',role:'provider',cat:'Дизайн',bio:'Брэнд айдентити, лого дизайн, UI/UX.',av:'#81D4FA'},
+    {id:'u3',name:'Оюунбилэг Б',email:'99003333',pass:'1234',role:'provider',cat:'Орчуулга',bio:'МН-АН-ХЯТАД гурван хэлний орчуулагч.',av:'#29B6F6'},
+    {id:'u4',name:'Энхтайван Г',email:'99004444',pass:'1234',role:'provider',cat:'Видео',bio:'Видео монтаж, motion graphics.',av:'#F0A500'},
+  ];
+  const svcs=[
+    {id:'s1',uid:'u1',title:'Вэб сайт хөгжүүлнэ',cat:'Хөгжүүлэлт',desc:'React эсвэл Vue ашиглан орчин үеийн вэб сайт.',price:200000,delivery:'14 өдөр',contact:'99001111',tags:['react','vue','вэб'],emoji:'💻'},
+    {id:'s2',uid:'u2',title:'Лого & брэнд айдентити',cat:'Дизайн',desc:'Өвөрмөц лого, визитийн карт, брэнд гайдлайн.',price:80000,delivery:'7 өдөр',contact:'99002222',tags:['лого','дизайн','брэнд'],emoji:'🎨'},
+    {id:'s3',uid:'u3',title:'Монгол-Англи орчуулга',cat:'Орчуулга',desc:'Баримт бичиг, вэбсайт, хэвлэлийн материал.',price:30000,delivery:'3 өдөр',contact:'99003333',tags:['орчуулга','англи'],emoji:'🌐'},
+    {id:'s4',uid:'u4',title:'Видео монтаж хийнэ',cat:'Видео',desc:'Premiere Pro, After Effects-ээр мэргэжлийн монтаж.',price:60000,delivery:'5 өдөр',contact:'99004444',tags:['видео','монтаж'],emoji:'🎬'},
+    {id:'s5',uid:'u2',title:'Сошиал медиа дизайн',cat:'Дизайн',desc:'Instagram, Facebook постны дизайн.',price:50000,delivery:'3 өдөр',contact:'99002222',tags:['instagram','дизайн'],emoji:'📱'},
+    {id:'s6',uid:'u1',title:'Landing page хийнэ',cat:'Хөгжүүлэлт',desc:'Хурдан, SEO-д оптималчлагдсан нэг хуудасны сайт.',price:120000,delivery:'7 өдөр',contact:'99001111',tags:['landing','вэб'],emoji:'🚀'},
+  ];
+  DB.users=users; DB.svcs=svcs;
+}
+
+function showPage(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  window.scrollTo(0,0);
+  if(p==='home')renderHome();
+  if(p==='browse')renderBrowse();
+  if(p==='dashboard')renderDash();
+}
+
+function filterCat(c){catF=c;showPage('browse');}
+
+function selRole(r){
+  selRole_=r;
+  document.getElementById('rProv').classList.toggle('on',r==='provider');
+  document.getElementById('rClient').classList.toggle('on',r==='client');
+  document.getElementById('provEx').style.display=r==='provider'?'block':'none';
+}
+
+function register(){
+  const n=document.getElementById('rN').value.trim();
+  const e=document.getElementById('rE').value.trim();
+  const p=document.getElementById('rP').value;
+  const l=document.getElementById('rL').value.trim();
+  if(!n||!e||!p){toast('⚠️ Бүх талбарыг бөглөнө үү');return;}
+  if(DB.users.find(u=>u.email===e)){toast('⚠️ Энэ имэйл бүртгэлтэй байна');return;}
+  const colors=skyColors;
+  const u={
+    id:'u'+Date.now(),
+    name:n+(l?' '+l.charAt(0)+'.':''),
+    email:e,pass:p,role:selRole_,
+    cat:selRole_==='provider'?document.getElementById('rC').value:'',
+    bio:selRole_==='provider'?document.getElementById('rB').value:'',
+    av:colors[Math.floor(Math.random()*colors.length)],
+  };
+  DB.users=[...DB.users,u];
+  setMe(u);
+  toast('🎉 Амжилттай бүртгүүллээ!');
+  setTimeout(()=>showPage(u.role==='provider'?'dashboard':'browse'),800);
+}
+
+function login(){
+  const e=document.getElementById('lE').value.trim();
+  const p=document.getElementById('lP').value;
+  const u=DB.users.find(x=>x.email===e&&x.pass===p);
+  if(!u){toast('⚠️ Имэйл эсвэл нууц үг буруу');return;}
+  setMe(u);
+  toast('👋 Тавтай морилно уу, '+u.name+'!');
+  setTimeout(()=>showPage(u.role==='provider'?'dashboard':'browse'),800);
+}
+
+function setMe(u){
+  me=u;
+  sessionStorage.setItem('z_me',JSON.stringify(u));
+  document.getElementById('navGuest').style.display='none';
+  document.getElementById('navUser').style.display='flex';
+  document.getElementById('navName').textContent=u.name;
+  if(u.role==='provider')document.getElementById('dashLink').style.display='';
+}
+
+function logout(){
+  me=null;sessionStorage.removeItem('z_me');
+  document.getElementById('navGuest').style.display='flex';
+  document.getElementById('navUser').style.display='none';
+  document.getElementById('dashLink').style.display='none';
+  showPage('home');
+}
+
+function mkCard(s,showDel=false){
+  const o=DB.users.find(u=>u.id===s.uid)||{name:'?',av:'#4FC3F7'};
+  const tags=(s.tags||[]).slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('');
+  const del=showDel?`<button onclick="event.stopPropagation();delSvc('${s.id}')" style="font-size:11px;color:var(--sky);background:none;border:1px solid var(--border);border-radius:8px;padding:3px 8px;cursor:pointer;">Устгах</button>`:'';
+  return`<div class="svc" onclick="showDetail('${s.id}')">
+    <div class="svc-thumb">${s.emoji||'✨'}</div>
+    <div class="svc-body">
+      <div class="prov-row">
+        <div class="av-sm" style="background:${o.av||'#4FC3F7'}">${o.name.charAt(0)}</div>
+        <div><div class="prov-name">${o.name}</div><div class="prov-cat">${o.cat||s.cat}</div></div>
+      </div>
+      <div class="svc-title">${s.title}</div>
+      <div class="svc-tags">${tags}</div>
+      <div class="svc-foot">
+        <span class="price">₮${s.price.toLocaleString()}-с</span>
+        <span class="deliv">⏱ ${s.delivery}</span>
+        ${del}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderHome(){
+  const svcs=DB.svcs.slice(-6).reverse();
+  document.getElementById('homeSvcs').innerHTML=svcs.length?svcs.map(s=>mkCard(s)).join(''):'<p style="color:var(--muted);padding:20px">Одоогоор байхгүй.</p>';
+  document.getElementById('sP').textContent=DB.users.filter(u=>u.role==='provider').length+'+';
+  document.getElementById('sS').textContent=DB.svcs.length+'+';
+}
+
+function renderBrowse(){
+  const q=(document.getElementById('srch')||{}).value?.toLowerCase()||'';
+  const cats=[...new Set(DB.svcs.map(s=>s.cat))];
+  const cc=document.getElementById('catChips');
+  if(cc)cc.innerHTML=`<span class="chip ${catF===''?'on':''}" onclick="setCat('',this)">Бүх</span>`
+    +cats.map(c=>`<span class="chip ${catF===c?'on':''}" onclick="setCat('${c}',this)">${c}</span>`).join('');
+  let s=DB.svcs;
+  if(q)s=s.filter(x=>x.title.toLowerCase().includes(q)||(x.tags||[]).join(' ').toLowerCase().includes(q));
+  if(catF)s=s.filter(x=>x.cat===catF);
+  if(pf==='50')s=s.filter(x=>x.price<=50000);
+  else if(pf==='100')s=s.filter(x=>x.price>50000&&x.price<=100000);
+  else if(pf==='100+')s=s.filter(x=>x.price>100000);
+  const g=document.getElementById('browseGrid');
+  const c=document.getElementById('resCnt');
+  if(c)c.textContent=`${s.length} үйлчилгээ олдлоо`;
+  if(g)g.innerHTML=s.length?s.map(x=>mkCard(x)).join(''):`<div class="empty" style="grid-column:1/-1"><div class="empty-ic">🔍</div><h3>Олдсонгүй</h3><p>Өөр үгээр хайж үзнэ үү</p></div>`;
+}
+
+function setCat(c,el){
+  catF=c;
+  document.querySelectorAll('#catChips .chip').forEach(x=>x.classList.remove('on'));
+  if(el)el.classList.add('on');
+  renderBrowse();
+}
+
+function setPf(v,el){
+  pf=v;
+  document.querySelectorAll('.filter-panel .chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  renderBrowse();
+}
+
+function showDetail(id){
+  curSvc=id;
+  const s=DB.svcs.find(x=>x.id===id);if(!s)return;
+  const o=DB.users.find(u=>u.id===s.uid)||{name:'?',av:'#4FC3F7'};
+  const tags=(s.tags||[]).map(t=>`<span class="d-tag">${t}</span>`).join('');
+  document.getElementById('detContent').innerHTML=`
+    <div class="det-hero">
+      <div class="det-top">
+        <div class="av-lg" style="background:${o.av||'#4FC3F7'}">${o.name.charAt(0)}</div>
+        <div class="det-info">
+          <h1>${s.title}</h1>
+          <div class="det-meta">
+            <span class="mi">👤 ${o.name}</span>
+            <span class="mi">📁 ${s.cat}</span>
+            <span class="mi">⏱ ${s.delivery}</span>
+            <span class="badge badge-g">Нээлттэй</span>
+          </div>
+          <p class="det-bio">${o.bio||''}</p>
+        </div>
+      </div>
+    </div>
+    <div class="det-body">
+      <div>
+        <h2>Үйлчилгээний тайлбар</h2>
+        <p>${s.desc}</p>
+        <div class="d-tags">${tags}</div>
+      </div>
+      <div>
+        <div class="contact-card">
+          <h3>${s.title}</h3>
+          <div class="c-price">₮${s.price.toLocaleString()}-с</div>
+          <button class="sub-btn" onclick="openModal('${s.id}')">Холбоо барих</button>
+          <div class="c-info">
+            <div class="c-row">⏱ Хугацаа: <strong style="color:var(--white)">${s.delivery}</strong></div>
+            <div class="c-row">📁 Ангилал: <strong style="color:var(--white)">${s.cat}</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  showPage('detail');
+}
+
+function renderDash(){
+  if(!me)return;
+  document.getElementById('dWelcome').textContent='Сайн байна уу, '+me.name+'!';
+  const mine=DB.svcs.filter(s=>s.uid===me.id);
+  document.getElementById('dCnt').textContent=mine.length;
+  document.getElementById('dInq').textContent=DB.inqs.filter(i=>i.toUid===me.id).length;
+  document.getElementById('mySvcs').innerHTML=mine.length?mine.map(s=>mkCard(s,true)).join(''):`<div class="empty" style="grid-column:1/-1"><div class="empty-ic">✨</div><h3>Үйлчилгээ байхгүй</h3><p>Эхний үйлчилгээгээ нийтлэх</p></div>`;
+}
+
+const emojis={Дизайн:'🎨',Хөгжүүлэлт:'💻',Орчуулга:'🌐',Маркетинг:'📢',Зохиол:'✍️',Видео:'🎬',Зөвлөх:'💼',Хөгжим:'🎵'};
+
+function postSvc(){
+  if(!me){toast('⚠️ Эхлээд нэвтэрнэ үү');showPage('login');return;}
+  const t=document.getElementById('sT').value.trim();
+  const cat=document.getElementById('sCat').value;
+  const d=document.getElementById('sD').value.trim();
+  const pr=parseInt(document.getElementById('sPr').value)||0;
+  if(!t||!cat||!d){toast('⚠️ Бүх талбарыг бөглөнө үү');return;}
+  const s={
+    id:'s'+Date.now(),uid:me.id,title:t,cat,desc:d,price:pr,
+    delivery:document.getElementById('sDl').value,
+    contact:document.getElementById('sCo').value,
+    tags:(document.getElementById('sTg').value||'').split(',').map(x=>x.trim()).filter(Boolean),
+    emoji:emojis[cat]||'✨',
+  };
+  DB.svcs=[...DB.svcs,s];
+  toast('🎉 Амжилттай нийтлэгдлээ!');
+  ['sT','sCat','sD','sPr','sCo','sTg'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  setTimeout(()=>showPage('dashboard'),800);
+}
+
+function delSvc(id){
+  if(!confirm('Устгах уу?'))return;
+  DB.svcs=DB.svcs.filter(s=>s.id!==id);
+  renderDash();toast('Устгагдлаа.');
+}
+
+function openModal(id){
+  curSvc=id;
+  const s=DB.svcs.find(x=>x.id===id);
+  const o=DB.users.find(u=>u.id===s?.uid);
+  document.getElementById('mProv').textContent=o?o.name+'-д мессеж илгээх':'';
+  if(me)document.getElementById('mN').value=me.name;
+  document.getElementById('cModal').classList.add('open');
+}
+function closeModal(){document.getElementById('cModal').classList.remove('open');}
+
+function sendInq(){
+  const n=document.getElementById('mN').value.trim();
+  const c=document.getElementById('mC').value.trim();
+  const t=document.getElementById('mT').value.trim();
+  if(!n||!c||!t){toast('⚠️ Бүх талбарыг бөглөнө үү');return;}
+  const s=DB.svcs.find(x=>x.id===curSvc);
+  DB.inqs=[...DB.inqs,{id:'i'+Date.now(),svcId:curSvc,toUid:s?.uid,name:n,contact:c,text:t}];
+  closeModal();
+  toast('✅ Мессеж амжилттай илгээгдлээ!');
+  ['mN','mC','mT'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+seed();renderHome();
+if(me)setMe(me);
+</script>
+</body>
+</html>
